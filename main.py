@@ -2,6 +2,8 @@ from tensorflow.keras.datasets import mnist
 import matplotlib.pyplot as plt
 import numpy as np
 
+from keras.utils import to_categorical
+
 # 2. === Подготовка данных ===
 # Нормализация входных данных (0-255 -> 0-1)
 data_train_norm = data_train.astype('float32') / 255.0
@@ -23,3 +25,11 @@ print(f'After reshape:\n'
       f'Single digit: {data_train_flat[0].shape}\n')
 
 print(f'Check: {28} * {28} = {28 * 28}')
+
+# One-hot encoding
+target_train_cat = to_categorical(target_train, num_classes = 10)
+target_test_cat = to_categorical(target_test, num_classes = 10)
+
+print(f'\nBefore one-hot: {target_train.shape}\n'
+      f'After one-hot: {target_train_cat.shape}\n'
+      f'Example target[0]: {target_train[0]} -> {target_train_cat[0]}\n')
