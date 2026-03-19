@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from keras.utils import to_categorical
+from keras.models import Sequential 
+from keras.layers import Dense, Dropout
 
 # 2. === Подготовка данных ===
 # Нормализация входных данных (0-255 -> 0-1)
@@ -40,3 +42,21 @@ print(f'Finished preprocessing\n'
       f'data_test_flat: {data_test_flat.shape}\n'
       f'target_train_cat: {target_train_cat.shape}\n'
       f'target_test_cat: {target_test_cat.shape}\n')
+
+# 3. === Создание модели ===
+model = Sequential([
+    Dense(512, activation = 'relu', input_shape = (784,)),
+    Dropout(0.2), # отключение 20% нейронов для избежания переобучения(подать на выход нейрона значение 0)
+    Dense(256, activation = 'relu'),
+    Dropout(0.2),
+    Dense(10, activation = 'softmax')
+])
+
+model.summary()
+
+# Компиляция
+model.compile(
+    optimizer = 'adam',
+    loss = 'categorical_crossentropy',
+    metrics = ['accuracy']
+)
