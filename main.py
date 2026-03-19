@@ -60,3 +60,21 @@ model.compile(
     loss = 'categorical_crossentropy',
     metrics = ['accuracy']
 )
+
+# Обучение
+# Ранний стопб для предотвращения ухудшения обучения
+# срабатывает в конце каждой эпохи и каждого обновления весов(batch_size)
+early_stop = EarlyStopping(
+    monitor = 'val_loss' # что отслеживаем
+    patience = 5, # сколько шагов ухудшения можно допустить перед остановкой
+    restore_best_weights = True, # во время остановки откатиться к лучшим значениям весов у нейронов
+    verbose = 1 # уведомление о срабатывании(0 - нетб 1 - есть)
+)
+learn = model.fit(
+    data_train_flat, target_train_cat,
+    epochs = 1,
+    batch_size = 128,
+    validation_split = 0.1,
+    callbacks = [early_stop], # подключение ранней остановки
+    verbose = 1
+)
