@@ -5,6 +5,7 @@ import numpy as np
 from keras.utils import to_categorical
 from keras.models import Sequential 
 from keras.layers import Dense, Dropout
+from keras.callbacks import EarlyStopping
 
 # 2. === Подготовка данных ===
 # Нормализация входных данных (0-255 -> 0-1)
@@ -65,11 +66,12 @@ model.compile(
 # Ранний стопб для предотвращения ухудшения обучения
 # срабатывает в конце каждой эпохи и каждого обновления весов(batch_size)
 early_stop = EarlyStopping(
-    monitor = 'val_loss' # что отслеживаем
+    monitor = 'val_loss', # что отслеживаем
     patience = 5, # сколько шагов ухудшения можно допустить перед остановкой
     restore_best_weights = True, # во время остановки откатиться к лучшим значениям весов у нейронов
     verbose = 1 # уведомление о срабатывании(0 - нетб 1 - есть)
 )
+
 learn = model.fit(
     data_train_flat, target_train_cat,
     epochs = 1,
