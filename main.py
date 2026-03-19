@@ -69,7 +69,7 @@ early_stop = EarlyStopping(
     monitor = 'val_loss', # что отслеживаем
     patience = 5, # сколько шагов ухудшения можно допустить перед остановкой
     restore_best_weights = True, # во время остановки откатиться к лучшим значениям весов у нейронов
-    verbose = 1 # уведомление о срабатывании(0 - нетб 1 - есть)
+    verbose = 1 # уведомление о срабатывании(0 - нет, 1 - есть)
 )
 
 learn = model.fit(
@@ -80,3 +80,9 @@ learn = model.fit(
     callbacks = [early_stop], # подключение ранней остановки
     verbose = 1
 )
+
+# Тестирование
+test_loss, test_acc = model.evaluate(data_test_flat, target_test_cat, verbose = 0)
+
+print(f'Test loss: {test_loss:.4f}\n'
+      f'Test accuracy: {test_acc:.4f} ({test_acc * 100:.1f}%)')
