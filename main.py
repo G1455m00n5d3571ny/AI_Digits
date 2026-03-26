@@ -164,3 +164,7 @@ print(classification_report(
     predicted_classes, # предсказанные классы
     target_names = [str(i) for i in range(10)] # наименовния чисел статистики (0-9)
 ))
+
+# Confusion Matrix
+conf_matrix = confusion_matrix(true_target_classes, predicted_classes)
+print(f'\nConfusion Matrix:\n {conf_matrix}')
