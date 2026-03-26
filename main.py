@@ -7,8 +7,48 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.callbacks import EarlyStopping
 
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
 
-# 1. ===  ===
+
+# 1. === Подгрузка датасета ===
+(data_train, target_train), (data_test, target_test) = mnist.load_data()
+
+# Формат данных
+print(f'Data train shape: {data_train.shape}\n'
+      f'Target train shape: {target_train.shape}\n'
+      f'Dtype: {data_train.dtype}\n'
+      f'Value range: {data_train.min()} - {data_train.max()}\n')
+
+print(f'Data test shape: {data_test.shape}\n'
+      f'Target test shape: {target_test.shape}\n'
+      f'Dtype: {target_train.dtype}\n'
+      f'Value range: {target_train.min()} - {target_train.max()}\n')
+
+# Подсчёт уникальных классов(целевых данных)
+unique, count = np.unique(target_train, return_counts = True)
+for digit, count in zip(unique, count):
+    print(f'Digit: {digit}, count: {count} - {count / len(target_train) * 100:.1f}%')
+
+# График - примеры цифр
+fig, ax = plt.subplots(4, 10, figsize = (15, 6))
+
+for i in range(40):
+    axes = ax[i // 10, i % 10] # разбиение range(40) на двумерный массив [row, col]
+    axes.imshow(data_train[i], cmap = 'gray') # отрисовка картинки с цифрой
+    axes.set_title(f'{target_train[i]}', fontsize = 12)
+    axes.axis('off') # отключение отображения оси координат для графика
+
+plt.subtitle('Digits example', fontsize = 16, fontweight = 'bold')
+plt.tight_layout()
+plt.savefig('1_digits_example.png', dpi = 150, bbox_inches = 'tight')
+
+# Просмотр одной цифры программно
+sample_digit_index = 0
+print(f'\nIndex of digit: {sample_digit_index}\n'
+      f'Target digit: {target_train[sample_digit_index]}\n'
+      f'Digit shape: {data_train[sample_digit_index].shape}\n')
+print(data_train[sample_digit_index])
 
 
 # 2. === Подготовка данных ===
@@ -47,7 +87,6 @@ print(f'Finished preprocessing\n'
       f'data_test_flat: {data_test_flat.shape}\n'
       f'target_train_cat: {target_train_cat.shape}\n'
       f'target_test_cat: {target_test_cat.shape}\n')
-
 
 # 3. === Создание модели ===
 model = Sequential([
@@ -116,7 +155,6 @@ ax2.grid(True, alpha = 0.3)
 
 plt.tight_layout()
 plt.savefig('2_model_fit.png', dpi = 150, bbox_inches = 'tight')
-
 
 # 4. === Анализ предсказаний ===
 # Виды ошибок
