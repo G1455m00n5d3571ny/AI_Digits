@@ -88,6 +88,7 @@ print(f'Finished preprocessing\n'
       f'target_train_cat: {target_train_cat.shape}\n'
       f'target_test_cat: {target_test_cat.shape}\n')
 
+
 # 3. === Создание модели ===
 model = Sequential([
     Dense(512, activation = 'relu', input_shape = (784,)),
@@ -156,6 +157,7 @@ ax2.grid(True, alpha = 0.3)
 plt.tight_layout()
 plt.savefig('2_model_fit.png', dpi = 150, bbox_inches = 'tight')
 
+
 # 4. === Анализ предсказаний ===
 # Виды ошибок
       # 1. True Positive(TP) - истинно-положительный
@@ -206,3 +208,17 @@ print(classification_report(
 # Confusion Matrix
 conf_matrix = confusion_matrix(true_target_classes, predicted_classes)
 print(f'\nConfusion Matrix:\n {conf_matrix}')
+
+# Подсчёт ошибочнызх пар
+print(f'n\Частые ошибки:')
+errors = []
+
+for i in range(10):
+    for j in range(10):
+        if i != j and conf_matrix[i, j] > 0:
+            errors.append((i, j, conf_matrix[i, j]))
+
+errors.sort(key = lambda x: x[2], revers = True)
+
+for true, pred, errors in errors[:10]:
+    print(f'{true} -> {pred}: {errors} раз.')
