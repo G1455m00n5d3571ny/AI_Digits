@@ -7,6 +7,10 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.callbacks import EarlyStopping
 
+
+# 1. ===  ===
+
+
 # 2. === Подготовка данных ===
 # Нормализация входных данных (0-255 -> 0-1)
 data_train_norm = data_train.astype('float32') / 255.0
@@ -43,6 +47,7 @@ print(f'Finished preprocessing\n'
       f'data_test_flat: {data_test_flat.shape}\n'
       f'target_train_cat: {target_train_cat.shape}\n'
       f'target_test_cat: {target_test_cat.shape}\n')
+
 
 # 3. === Создание модели ===
 model = Sequential([
@@ -112,6 +117,7 @@ ax2.grid(True, alpha = 0.3)
 plt.tight_layout()
 plt.savefig('2_model_fit.png', dpi = 150, bbox_inches = 'tight')
 
+
 # 4. === Анализ предсказаний ===
 # Виды ошибок
       # 1. True Positive(TP) - истинно-положительный
@@ -139,3 +145,8 @@ plt.savefig('2_model_fit.png', dpi = 150, bbox_inches = 'tight')
       # среднее значение между Precision и Recall
 
       # 4. Support - сколько примеров класса было в тестах
+
+
+# Confusion Matrix - таблица ошибок
+# Матрица предсказанных классов относительно верных классов
+# Идеальный вариант - нулевая диагональ, остальные поля = 0
