@@ -156,3 +156,11 @@ plt.savefig('2_model_fit.png', dpi = 150, bbox_inches = 'tight')
 predictions = model.predict(data_test_flat)
 predicted_classes = np.argmax(predictions, axis = 1)
 true_target_classes = target_test
+
+# Classification Report
+print(f'\nClassification Report:')
+print(classification_report(
+    true_target_classes, # истинные выходные данные
+    predicted_classes, # предсказанные классы
+    target_names = [str(i) for i in range(10)] # наименовния чисел статистики (0-9)
+))
