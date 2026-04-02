@@ -350,3 +350,20 @@ model_v3_learn = model_v3.fit(
     callbacks = [early_stop],
     verbose = 1,
 )
+
+test_acc_v3 = model_v3.evaluate(data_test_flat, target_test_cat, verbose = 0)[1]
+print(f'Test accuracy: {test_acc_v3:.2f}')
+
+# Сравнение моделей
+model_comparison = [
+    ('Базовая модель', test_acc, model.count_params()),
+    ('Модель №2(глубокая)', test_acc_v2, model_v2.count_params()),
+    ('Модель №3(с BatchNorm)', test_acc_v3, model_v3.count_params())
+]
+
+print(f'\n{'Модель':<30} {'Test accuracy':<15} {'Кол-во параметров':>15,}')
+for name, acc, params in model_comparison:
+    print(f'{name:<30} {acc:2f} ({acc * 100:.2f}%) {params:>15,}')
+
+best_model = max(model_comparison, key = lambda x: x[1])[0]
+print(f'\nЛучшая модель: {best_model}')
